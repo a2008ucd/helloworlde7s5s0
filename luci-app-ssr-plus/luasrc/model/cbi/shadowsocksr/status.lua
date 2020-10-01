@@ -143,6 +143,9 @@ if nixio.fs.access("/usr/bin/kcptun-client") then
 	end
 end
 
+s=m:field(DummyValue,"getfile",translate("updatefilectivity"))
+s.template = "shadowsocksr/getfile"
+
 s=m:field(DummyValue,"google",translate("Google Connectivity"))
 s.value = translate("No Check")
 s.template = "shadowsocksr/check"
