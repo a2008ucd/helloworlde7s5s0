@@ -9,19 +9,35 @@ function index()
 	end
 	entry({"admin", "services", "shadowsocksr"}, alias("admin", "services", "shadowsocksr", "client"),_("ShadowSocksR Plus+"), 10).dependent = true
 	entry({"admin", "services", "shadowsocksr", "client"}, cbi("shadowsocksr/client"),_("SSR Client"), 10).leaf = true
+	--注释下面这一行
 	entry({"admin", "services", "shadowsocksr", "servers"}, arcombine(cbi("shadowsocksr/servers", {autoapply = true}), cbi("shadowsocksr/client-config")),_("Severs Nodes"), 20).leaf = true
 	entry({"admin", "services", "shadowsocksr", "control"},cbi("shadowsocksr/control"), _("Access Control"), 30).leaf = true
 	entry({"admin", "services", "shadowsocksr", "advanced"},cbi("shadowsocksr/advanced"),_("Advanced Settings"), 50).leaf = true
 	entry({"admin", "services", "shadowsocksr", "server"},arcombine(cbi("shadowsocksr/server"), cbi("shadowsocksr/server-config")),_("SSR Server"), 60).leaf = true
 	entry({"admin", "services", "shadowsocksr", "status"},form("shadowsocksr/status"),_("Status"), 70).leaf = true
+	entry({"admin", "services", "shadowsocksr", "getfile"}, call("getconffile"))
 	entry({"admin", "services", "shadowsocksr", "check"}, call("check_status"))
 	entry({"admin", "services", "shadowsocksr", "refresh"}, call("refresh_data"))
 	entry({"admin", "services", "shadowsocksr", "subscribe"}, call("subscribe"))
 	entry({"admin", "services", "shadowsocksr", "checkport"}, call("check_port"))
+	--注释下面这一行
 	entry({"admin", "services", "shadowsocksr", "log"},form("shadowsocksr/log"),_("Log"), 80).leaf = true
 	entry({"admin", "services", "shadowsocksr","run"},call("act_status")).leaf = true
 	entry({"admin", "services", "shadowsocksr", "ping"}, call("act_ping")).leaf = true
 end
+
+function getconffile()
+	local set = "sh /usr/share/shadowsocksr/getconfbtn.sh >/dev/null 2>&1"
+	sret = luci.sys.call(set)
+	if sret == 0 then
+		retstring ="0"
+	else
+		retstring ="1"
+	end
+	luci.http.prepare_content("application/json")
+	luci.http.write_json({ ret=retstring })
+end
+
 
 function subscribe()
 	luci.sys.call("/usr/bin/lua /usr/share/shadowsocksr/subscribe.lua >> /tmp/ssrplus.log 2>&1")
