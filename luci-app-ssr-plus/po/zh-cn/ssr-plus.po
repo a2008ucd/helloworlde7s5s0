@@ -681,3 +681,17 @@ msgstr "警告！请不要重复使用端口！"
 
 msgid "Deny Domain List"
 msgstr "禁止连接的域名"
+
+msgid "updatefilectivity"
+msgstr "更新线路"
+
+msgid "Updatefiles"
+msgstr "更新"
+
+msgid "Updatefile OK"
+msgstr "更新成功"
+
+msgid "Updatefile Error"
+msgstr "更新失败"
+
+
